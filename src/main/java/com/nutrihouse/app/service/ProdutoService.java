@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -88,5 +89,11 @@ public class ProdutoService {
                 .quantidade(produtoDto.getQuantidade())
                 .build();
         return produto;
+    }
+
+    public List<Produto> findAllPerTipe(TipoCadastro tipoCadastro){
+        List<Produto> list = repo.findAll();
+
+        return list;
     }
 }

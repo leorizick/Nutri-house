@@ -44,4 +44,8 @@ public class Cliente implements Serializable {
         tipoCadastro = TipoCadastro.ATIVO;
     }
 
+    @Override
+    public String toString() {
+        return "" + nome;
+    }
 }

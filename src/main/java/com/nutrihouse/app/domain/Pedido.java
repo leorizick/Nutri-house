@@ -34,10 +34,10 @@ public class Pedido implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime localDateTime;
 
-    public Pedido(Integer id, Cliente cliente, LocalDateTime localDateTime) {
+    public Pedido(Integer id, Cliente cliente) {
         this.id = id;
         this.cliente = cliente;
-        this.localDateTime = localDateTime;
+        this.localDateTime = LocalDateTime.now();
     }
 
     public double getValorTotal() {
