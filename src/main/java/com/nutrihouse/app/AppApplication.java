@@ -29,6 +29,9 @@ public class AppApplication implements CommandLineRunner {
     @Autowired
     ReceituarioRepository receituarioRepository;
 
+    @Autowired
+    ControleDeEstoque controleDeEstoque;
+
     public static void main(String[] args) {
         SpringApplication.run(AppApplication.class, args);
     }
@@ -44,8 +47,8 @@ public class AppApplication implements CommandLineRunner {
         Cliente cli3 = new Cliente(null, "Ana Maria Braga", "Receitas fitness para emagrecimento", TipoCliente.CLIENTE, "5001982378", TipoCadastro.DESATIVO, null);
         clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 
-        Produto p1 = new Produto(null, "Creme emagrecedor", "Usar 2x ao dia", "790816877283849", 4, 70.00);
-        Produto p2 = new Produto(null, "Insulina 200mg", "Aplicar após cada refeição", "798500039293849", 15, 250.00);
+        Produto p1 = new Produto(null, "Creme emagrecedor", "Usar 2x ao dia", "790816877283849", 4, 70.00, TipoCadastro.SUPLEMENTO);
+        Produto p2 = new Produto(null, "Insulina 200mg", "Aplicar após cada refeição", "798500039293849", 15, 250.00, TipoCadastro.MEDICAMENTO);
         Produto p3 = new Produto(null, "Kit vitaminas b", "Ingerir junto da alimentacao", "798599423848523", 7, 85.00, TipoCadastro.DESATIVO);
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
@@ -75,6 +78,9 @@ public class AppApplication implements CommandLineRunner {
                cli2, ped3);
 
         receituarioRepository.saveAll(Arrays.asList(r1,r2,r3));
+
+        controleDeEstoque.saidaDeEstoque(ped1);
+
 
 
     }

@@ -4,7 +4,6 @@ import com.nutrihouse.app.domain.Produto;
 import com.nutrihouse.app.dto.ProdutoDto;
 import com.nutrihouse.app.enums.TipoCadastro;
 import com.nutrihouse.app.service.ProdutoService;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +25,16 @@ public class ProdutoCrudController {
         return ResponseEntity.status(HttpStatus.OK).body(produto);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Produto>> findAll(){
-//        List<Produto> list = service.findAll();
-//        List<Produto> newList = list.stream().filter(x -> x.getTipoCadastro().equals(TipoCadastro.ATIVO)).collect(Collectors.toList());
-//        return ResponseEntity.status(HttpStatus.OK).body(newList);
-//    }
+    @GetMapping
+    public ResponseEntity<List<Produto>> findAll(){
+        List<Produto> list = service.findAll()
+                .stream()
+                .filter(x -> x.getTipoCadastro() != TipoCadastro.DESATIVO)
+                .collect(Collectors.toList());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(list);
+    }
 
     @PostMapping()
     public ResponseEntity<?> save(@RequestBody ProdutoDto produtoDto){

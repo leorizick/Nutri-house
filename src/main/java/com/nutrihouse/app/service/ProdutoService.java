@@ -20,7 +20,6 @@ public class ProdutoService {
     @Autowired
     ProdutoRepository repo;
 
-
     public Produto find(Integer id){
         Optional<Produto> produto = repo.findById(id);
         return produto.orElseThrow(() -> new ObjectNotFoundException("Produto nao encontrado!"));
@@ -91,9 +90,4 @@ public class ProdutoService {
         return produto;
     }
 
-    public List<Produto> findAllPerTipe(TipoCadastro tipoCadastro){
-        List<Produto> list = repo.findAll();
-
-        return list;
-    }
 }
