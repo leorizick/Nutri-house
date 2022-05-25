@@ -1,8 +1,10 @@
 package com.nutrihouse.app.rest;
 
 import com.nutrihouse.app.domain.Cliente;
+import com.nutrihouse.app.domain.Produto;
 import com.nutrihouse.app.dto.ClienteDto;
 import com.nutrihouse.app.enums.TipoCadastro;
+import com.nutrihouse.app.enums.TipoCliente;
 import com.nutrihouse.app.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +35,17 @@ public class ClienteCrudController {
                 .filter(x -> x.getTipoCadastro().equals(TipoCadastro.ATIVO))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(listAtivo);
+    }
+
+    @GetMapping(value = "/tipo/{tipoCliente}")
+    public ResponseEntity<List<Cliente>> findPerAttribute(@PathVariable TipoCliente tipoCliente){
+        List<Cliente> list = service.findAll()
+                .stream()
+                .filter(x -> x.getTipoCliente() == tipoCliente)
+                .collect(Collectors.toList());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(list);
     }
 
     @PostMapping

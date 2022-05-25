@@ -40,7 +40,12 @@ public class ReceituarioService implements Serializable {
         receituario.setId(null);
         receituario.setDescricao(receituario.getDescricao());
         receituario.setCliente(clienteService.find(receituario.getCliente().getId()));
-        receituario.setItensPedido(receituario.getItensPedido());
+        if(receituario.getCliente().getPedido() != null) {
+            receituario.setItensPedido(
+                    receituario.getCliente().getPedido()
+                            .get(receituario.getPedido().getId())
+                            .getItensPedidos());
+        }else receituario.setItensPedido(null);
         receituario.setLocalDateTime(LocalDateTime.now());
         repo.save(receituario);
 

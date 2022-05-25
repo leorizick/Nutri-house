@@ -1,11 +1,10 @@
 package com.nutrihouse.app.domain;
 
 import com.nutrihouse.app.repositories.ProdutoRepository;
+import com.nutrihouse.app.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
-import java.util.Optional;
 
 @Component
 public class ControleDeEstoque {
@@ -15,24 +14,11 @@ public class ControleDeEstoque {
 
     public void saidaDeEstoque(Pedido pedido) {
         for (ItensPedido itens : pedido.getItensPedidos()) {
-            Optional<Produto> obj = repo.findById(itens.getProduto().getId());
-            Produto produto = optionalToProduto(obj);
+            Produto produto = itens.getProduto();
             produto.setQuantidade(produto.getQuantidade() - itens.getQuantidade());
             repo.save(produto);
         }
     }
 
-    public Produto optionalToProduto(Optional<Produto> obj) {
-        Produto produto = Produto.builder()
-                .id(obj.get().getId())
-                .descricao(obj.get().getDescricao())
-                .tipoCadastro(obj.get().getTipoCadastro())
-                .codBarras(obj.get().getCodBarras())
-                .nome(obj.get().getNome())
-                .preco(obj.get().getPreco())
-                .quantidade(obj.get().getQuantidade())
-                .build();
-        return produto;
-    }
 }
 
