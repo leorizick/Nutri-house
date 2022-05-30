@@ -2,6 +2,7 @@ package com.nutrihouse.app.config;
 
 
 import com.nutrihouse.app.security.JWTAuthenticationFilter;
+import com.nutrihouse.app.security.JWTAuthorizationFilter;
 import com.nutrihouse.app.security.JWTUtil;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 

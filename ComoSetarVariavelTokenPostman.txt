@@ -1,0 +1,2 @@
+Na aba tests
+postman.setGlobalVariable("cursomc_token",postman.getResponseHeader("Authorization"));
