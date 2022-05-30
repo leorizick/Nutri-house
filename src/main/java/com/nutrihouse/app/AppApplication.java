@@ -1,6 +1,7 @@
 package com.nutrihouse.app;
 
 import com.nutrihouse.app.domain.*;
+import com.nutrihouse.app.enums.Perfil;
 import com.nutrihouse.app.enums.TipoCadastro;
 import com.nutrihouse.app.enums.TipoCliente;
 import com.nutrihouse.app.repositories.*;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -28,6 +30,8 @@ public class AppApplication implements CommandLineRunner {
     ItensPedidoRepository itensPedidoRepository;
     @Autowired
     ReceituarioRepository receituarioRepository;
+    @Autowired
+    private BCryptPasswordEncoder pe;
 
     @Autowired
     ControleDeEstoque controleDeEstoque;
@@ -39,8 +43,11 @@ public class AppApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Usuario usuario = new Usuario(null, "Simone", "1234", "ABCD");
-        usuarioRepository.saveAll(Arrays.asList(usuario));
+        Usuario usuario = new Usuario(null, "simone@gmail.com", pe.encode("1234"), "ABCD");
+        usuario.addPerfil(Perfil.ADMIN);
+        Usuario usuario2 = new Usuario(null, "leorizick@gmail.com", pe.encode("1234"), "ABCD");
+        usuarioRepository.saveAll(Arrays.asList(usuario, usuario2));
+
 
         Cliente cli1 = new Cliente(null, "Maria da silva", "Emagrecimento e tratamento diabetes aguda", TipoCliente.PACIENTE, "5001982378");
         Cliente cli2 = new Cliente(null, "Joao de Barro", "Quer ficar grutao", TipoCliente.CLIENTE, "5001982378");
