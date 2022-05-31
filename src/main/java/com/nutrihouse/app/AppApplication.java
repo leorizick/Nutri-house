@@ -43,9 +43,9 @@ public class AppApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Usuario usuario = new Usuario(null, "simone@gmail.com", pe.encode("1234"), "ABCD");
+        Usuario usuario = new Usuario(null, "simone@gmail.com", pe.encode("1234"));
         usuario.addPerfil(Perfil.ADMIN);
-        Usuario usuario2 = new Usuario(null, "leorizick@gmail.com", pe.encode("1234"), "ABCD");
+        Usuario usuario2 = new Usuario(null, "leorizick@gmail.com", pe.encode("1234"));
         usuarioRepository.saveAll(Arrays.asList(usuario, usuario2));
 
 

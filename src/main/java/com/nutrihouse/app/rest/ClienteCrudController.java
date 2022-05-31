@@ -9,6 +9,7 @@ import com.nutrihouse.app.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,11 +31,11 @@ public class ClienteCrudController {
 
     @GetMapping
     public ResponseEntity<List<Cliente>> findAll(){
-        List<Cliente> list = service.findAll();
-        List<Cliente> listAtivo = list.stream()
-                .filter(x -> x.getTipoCadastro().equals(TipoCadastro.ATIVO))
+        List<Cliente> list = service.findAll()
+                .stream()
+                .filter(x -> x.getTipoCadastro() == (TipoCadastro.ATIVO))
                 .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(listAtivo);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping(value = "/tipo/{tipoCliente}")
@@ -51,9 +52,12 @@ public class ClienteCrudController {
     @PostMapping
     public ResponseEntity<?> save(@RequestBody ClienteDto clienteDto) {
         ClienteDto response = service.save(clienteDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update (@RequestBody ClienteDto clienteDto, @PathVariable Integer id){
         Cliente cliente =  service.fromDto(clienteDto);
@@ -62,6 +66,7 @@ public class ClienteCrudController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         service.delete(id);

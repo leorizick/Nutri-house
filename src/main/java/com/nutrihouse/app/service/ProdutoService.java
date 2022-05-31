@@ -44,6 +44,7 @@ public class ProdutoService {
     public void delete(Integer id){
         Produto produto = find(id);
         produto.setTipoCadastro(TipoCadastro.DESATIVO);
+        repo.save(produto);
         try{
             repo.delete(produto);
         }catch (DataIntegrityViolationException e){

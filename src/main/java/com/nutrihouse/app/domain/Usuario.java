@@ -33,13 +33,11 @@ public class Usuario {
 
     @JsonIgnore
     private String password;
-    private String token;
 
-    public Usuario(Integer id, String username, String password, String token) {
+    public Usuario(Integer id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.token = token;
         addPerfil(Perfil.FUNCIONARIO);
     }
 

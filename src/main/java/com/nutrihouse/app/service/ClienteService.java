@@ -59,10 +59,11 @@ public class ClienteService {
     public void delete(Integer id){
         Cliente cliente = find(id);
         cliente.setTipoCadastro(TipoCadastro.DESATIVO);
+        repo.save(cliente);
         try{
             repo.deleteById(id);
         }catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("Não é possivel excluir um produto que possua dependencias! Cliente desativado!");
+            throw new DataIntegrityViolationException("Não é possivel excluir um cliente que possua dependencias! Cliente desativado!");
         }
     }
 

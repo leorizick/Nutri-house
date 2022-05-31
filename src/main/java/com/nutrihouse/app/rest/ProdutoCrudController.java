@@ -7,6 +7,7 @@ import com.nutrihouse.app.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class ProdutoCrudController {
                 .body(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update (@RequestBody ProdutoDto produtoDto, @PathVariable Integer id){
         Produto produto = service.fromDto(produtoDto);
@@ -54,6 +56,7 @@ public class ProdutoCrudController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         service.delete(id);
