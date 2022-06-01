@@ -26,7 +26,10 @@ public class AuthenticationCrudController {
         UserSecurity user = UsuarioService.authenticated();
         String token = jwtUtil.generateToken(user.getUsername());
         response.addHeader("Authorization", "Bearer " + token);
-        return ResponseEntity.noContent().build();
+        response.addHeader("acess-control-expose-headers", "Authorization");
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
 
