@@ -20,7 +20,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private AuthenticationManager authenticationManager;
     private JWTUtil jwtUtil;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil){
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
@@ -41,13 +41,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
-                                           HttpServletResponse response,
-                                           FilterChain chain,
-                                           Authentication auth) throws IOException, ServletException{
-        String username = ((UserSecurity) auth.getPrincipal()).getUsername();
+                                            HttpServletResponse response,
+                                            FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
+        String username = ((UserSS) auth.getPrincipal()).getUsername();
         String token = jwtUtil.generateToken(username);
         response.addHeader("Authorization", "Bearer " + token);
-        response.addHeader("acess-control-expose-headers", "Authorization");
+        response.addHeader("access-control-expose-headers", "Authorization");
+
 
 
     }

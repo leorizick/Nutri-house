@@ -2,8 +2,6 @@ package com.nutrihouse.app.service;
 
 import com.nutrihouse.app.domain.ItensPedido;
 import com.nutrihouse.app.domain.Pedido;
-import com.nutrihouse.app.domain.Produto;
-import com.nutrihouse.app.enums.TipoCadastro;
 import com.nutrihouse.app.repositories.ItensPedidoRepository;
 import com.nutrihouse.app.repositories.PedidoRepository;
 import com.nutrihouse.app.service.exceptions.ObjectNotFoundException;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,7 +33,7 @@ public class PedidoService implements Serializable {
     }
 
 
-    public Page<Pedido> findPages(Pageable pageable){
+    public Page<Pedido> findPages(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
@@ -54,10 +51,6 @@ public class PedidoService implements Serializable {
         itensPedidoRepository.saveAll(pedido.getItensPedidos());
         return pedido;
     }
-
-
-
-
 
 
 }

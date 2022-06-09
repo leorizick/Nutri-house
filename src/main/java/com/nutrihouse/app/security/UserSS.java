@@ -1,9 +1,6 @@
 package com.nutrihouse.app.security;
 
 import com.nutrihouse.app.enums.Perfil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class UserSecurity implements UserDetails {
+public class UserSS implements UserDetails {
 
 
     private Integer id;
@@ -21,7 +18,12 @@ public class UserSecurity implements UserDetails {
     private String senha;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserSecurity(Integer id, String username, String senha, Set<Perfil> perfis) {
+    public UserSS() {
+
+    }
+
+    public UserSS(Integer id, String username, String senha, Set<Perfil> perfis) {
+        super();
         this.id = id;
         this.username = username;
         this.senha = senha;
@@ -42,7 +44,6 @@ public class UserSecurity implements UserDetails {
         return senha;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
@@ -66,4 +67,10 @@ public class UserSecurity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean hasRole(Perfil perfil) {
+        return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+    }
 }
+
+

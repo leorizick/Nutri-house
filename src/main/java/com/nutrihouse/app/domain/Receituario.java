@@ -45,7 +45,7 @@ public class Receituario {
         this.descricao = descricao;
         this.cliente = cliente;
         this.pedido = pedido;
-        if(this.pedido != null) {
+        if (this.pedido != null) {
             this.itensPedido = pedido.getItensPedidos();
         }
     }

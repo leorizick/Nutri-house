@@ -1,7 +1,6 @@
 package com.nutrihouse.app.domain;
 
 import com.nutrihouse.app.repositories.ProdutoRepository;
-import com.nutrihouse.app.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

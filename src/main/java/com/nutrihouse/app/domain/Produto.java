@@ -2,16 +2,12 @@ package com.nutrihouse.app.domain;
 
 
 import com.nutrihouse.app.enums.TipoCadastro;
-import com.nutrihouse.app.enums.TipoCliente;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
@@ -30,8 +26,9 @@ public class Produto implements Serializable {
     private String codBarras;
     private Integer quantidade;
     private Double preco;
-    private TipoCadastro tipoCadastro;
 
+    @Enumerated(value = EnumType.STRING)
+    private TipoCadastro tipoCadastro;
 
 
     public Produto(Integer id, String nome, String descricao, String codBarras, Integer quantidade, Double preco) {

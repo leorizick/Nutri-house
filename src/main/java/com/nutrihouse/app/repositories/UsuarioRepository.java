@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-    @Transactional
+
     Usuario findByUsername(String username);
+
 }

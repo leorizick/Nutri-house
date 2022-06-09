@@ -35,7 +35,7 @@ public class PedidoCrudController {
     }
 
     @PostMapping
-    public ResponseEntity<Pedido> save(Pedido pedido){
+    public ResponseEntity<Pedido> save(Pedido pedido) {
         Pedido response = service.save(pedido);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

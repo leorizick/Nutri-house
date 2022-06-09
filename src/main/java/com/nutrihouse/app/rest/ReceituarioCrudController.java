@@ -21,7 +21,7 @@ public class ReceituarioCrudController implements Serializable {
     ReceituarioService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Receituario> find(@PathVariable Integer id){
+    public ResponseEntity<Receituario> find(@PathVariable Integer id) {
         Receituario receituario = service.find(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -29,7 +29,7 @@ public class ReceituarioCrudController implements Serializable {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Receituario>> findPages(@PageableDefault(size = 15, page = 0, sort = "localDateTime", direction = Sort.Direction.DESC) Pageable pageable){
+    public ResponseEntity<Page<Receituario>> findPages(@PageableDefault(size = 15, page = 0, sort = "localDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Receituario> pageReceituario = service.findPages(pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -37,7 +37,7 @@ public class ReceituarioCrudController implements Serializable {
     }
 
     @PostMapping
-    public ResponseEntity<Receituario> save (Receituario receituario){
+    public ResponseEntity<Receituario> save(Receituario receituario) {
         Receituario response = service.save(receituario);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

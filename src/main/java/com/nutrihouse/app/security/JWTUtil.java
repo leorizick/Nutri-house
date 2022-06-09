@@ -1,7 +1,6 @@
 package com.nutrihouse.app.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ public class JWTUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String username){
+    public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -28,11 +27,11 @@ public class JWTUtil {
 
     public boolean tokenValido(String token) {
         Claims claims = getClaims(token);
-        if(claims != null){
+        if (claims != null) {
             String username = claims.getSubject();
             Date expirationDate = claims.getExpiration();
             Date now = new Date(System.currentTimeMillis());
-            if(username != null && expirationDate != null && now.before(expirationDate)){
+            if (username != null && expirationDate != null && now.before(expirationDate)) {
                 return true;
             }
         }
@@ -42,14 +41,14 @@ public class JWTUtil {
     private Claims getClaims(String token) {
         try {
             return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     public String getUsername(String token) {
         Claims claims = getClaims(token);
-        if(claims != null){
+        if (claims != null) {
             return claims.getSubject();
         }
         return null;

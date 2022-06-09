@@ -34,9 +34,8 @@ public class DBService {
 
 
     public void instantiateTestDatabase() {
-        Usuario usuario = new Usuario(null, "simone@gmail.com", pe.encode("1234"));
-        usuario.addPerfil(Perfil.ADMIN);
-        Usuario usuario2 = new Usuario(null, "leorizick@gmail.com", pe.encode("1234"));
+        Usuario usuario = new Usuario(null,"Simone", "simone@gmail.com", pe.encode("1234"), 1);
+        Usuario usuario2 = new Usuario(null, "Leonardo","leorizick@gmail.com", pe.encode("1234"), 2);
         usuarioRepository.saveAll(Arrays.asList(usuario, usuario2));
 
 
@@ -45,10 +44,16 @@ public class DBService {
         Cliente cli3 = new Cliente(null, "Ana Maria Braga", "Receitas fitness para emagrecimento", TipoCliente.CLIENTE, "5001982378", TipoCadastro.DESATIVO, null);
         clienteRepository.saveAll(Arrays.asList(cli1, cli2, cli3));
 
+//        Categoria cat1 = new Categoria(null, "MEDICAMENTOS", TipoCadastro.ATIVO,)
+
         Produto p1 = new Produto(null, "Creme emagrecedor", "Usar 2x ao dia", "790816877283849", 4, 70.00, TipoCadastro.SUPLEMENTO);
         Produto p2 = new Produto(null, "Insulina 200mg", "Aplicar após cada refeição", "798500039293849", 15, 250.00, TipoCadastro.MEDICAMENTO);
         Produto p3 = new Produto(null, "Kit vitaminas b", "Ingerir junto da alimentacao", "798599423848523", 7, 85.00, TipoCadastro.DESATIVO);
-        produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+        Produto p4 = new Produto(null, "Kit vitaminas A12", "Ingerir junto da alimentacao", "798599423848523", 7, 85.00, TipoCadastro.VITAMINA);
+        Produto p5 = new Produto(null, "Barra proteica 12g", "Ingerir junto da alimentacao", "798599423848523", 7, 85.00);
+
+
+        produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
         List<Produto> list = new ArrayList<>();
 
         for (int i = 12; i < 60; i++) {

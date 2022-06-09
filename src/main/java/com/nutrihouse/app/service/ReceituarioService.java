@@ -1,6 +1,5 @@
 package com.nutrihouse.app.service;
 
-import com.nutrihouse.app.domain.Cliente;
 import com.nutrihouse.app.domain.ItensPedido;
 import com.nutrihouse.app.domain.Receituario;
 import com.nutrihouse.app.repositories.ItensPedidoRepository;
@@ -27,25 +26,25 @@ public class ReceituarioService implements Serializable {
     @Autowired
     ItensPedidoRepository itensPedidoRepository;
 
-    public Receituario find(Integer id){
-        Optional<Receituario> receituario= repo.findById(id);
+    public Receituario find(Integer id) {
+        Optional<Receituario> receituario = repo.findById(id);
         return receituario.orElseThrow(() -> new ObjectNotFoundException("Receita nao encontrada! Id:" + id));
     }
 
-    public Page<Receituario> findPages(Pageable pageable){
+    public Page<Receituario> findPages(Pageable pageable) {
         return repo.findAll(pageable);
     }
 
-    public Receituario save(Receituario receituario){
+    public Receituario save(Receituario receituario) {
         receituario.setId(null);
         receituario.setDescricao(receituario.getDescricao());
         receituario.setCliente(clienteService.find(receituario.getCliente().getId()));
-        if(receituario.getCliente().getPedido() != null) {
+        if (receituario.getCliente().getPedido() != null) {
             receituario.setItensPedido(
                     receituario.getCliente().getPedido()
                             .get(receituario.getPedido().getId())
                             .getItensPedidos());
-        }else receituario.setItensPedido(null);
+        } else receituario.setItensPedido(null);
         receituario.setLocalDateTime(LocalDateTime.now());
         repo.save(receituario);
 

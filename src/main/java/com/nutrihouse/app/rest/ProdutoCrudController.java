@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,13 +24,32 @@ public class ProdutoCrudController {
     ProdutoService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Produto> find(@PathVariable Integer id){
+    public ResponseEntity<Produto> find(@PathVariable Integer id) {
         Produto produto = service.find(id);
-        return ResponseEntity.status(HttpStatus.OK).body(produto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(produto);
+    }
+
+    
+    @GetMapping(value = "/categorias")
+    public ResponseEntity<Set<TipoCadastro>> findAllCategorias(){
+        Set<TipoCadastro> list = service.findAllCategorias();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(list);
+    }
+
+    @GetMapping(value = "/categorias/tipocadastro")
+    public ResponseEntity<List<Produto>> findAllPerCategorias(@RequestParam (value = "value") TipoCadastro tipoCadastro){
+        List<Produto> list = service.findAllPerCategorias(tipoCadastro);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(list);
     }
 
     @GetMapping
-    public ResponseEntity<List<Produto>> findAll(){
+    public ResponseEntity<List<Produto>> findAll() {
         List<Produto> list = service.findAll()
                 .stream()
                 .filter(x -> x.getTipoCadastro() != TipoCadastro.DESATIVO)
@@ -38,7 +60,7 @@ public class ProdutoCrudController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> save(@RequestBody ProdutoDto produtoDto){
+    public ResponseEntity<?> save(@RequestBody ProdutoDto produtoDto) {
         ProdutoDto response = service.save(produtoDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -47,7 +69,7 @@ public class ProdutoCrudController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update (@RequestBody ProdutoDto produtoDto, @PathVariable Integer id){
+    public ResponseEntity<?> update(@RequestBody ProdutoDto produtoDto, @PathVariable Integer id) {
         Produto produto = service.fromDto(produtoDto);
         produto.setId(id);
         service.update(produto);
@@ -58,7 +80,7 @@ public class ProdutoCrudController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity
                 .noContent()
@@ -66,7 +88,7 @@ public class ProdutoCrudController {
     }
 
     @GetMapping(value = "/tipo/{tipoCadastro}")
-    public ResponseEntity<List<Produto>> findPerAttribute(@PathVariable TipoCadastro tipoCadastro){
+    public ResponseEntity<List<Produto>> findPerAttribute(@PathVariable TipoCadastro tipoCadastro) {
         List<Produto> list = service.findAll()
                 .stream()
                 .filter(x -> x.getTipoCadastro() == tipoCadastro)

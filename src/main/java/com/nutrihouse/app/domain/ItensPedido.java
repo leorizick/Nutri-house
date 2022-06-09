@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -31,26 +32,26 @@ public class ItensPedido implements Serializable {
         this.preco = preco;
     }
 
-    public Double getSubTotal(){
+    public Double getSubTotal() {
         return preco * quantidade;
     }
 
 
     @JsonIgnore
-    public Pedido getPedido(){
+    public Pedido getPedido() {
         return id.getPedido();
     }
 
     @JsonIgnore
-    public void setPedido(Pedido pedido){
+    public void setPedido(Pedido pedido) {
         id.setPedido(pedido);
     }
 
-    public Produto getProduto(){
+    public Produto getProduto() {
         return id.getProduto();
     }
 
-    public void setProduto(Produto produto){
+    public void setProduto(Produto produto) {
         id.setProduto(produto);
     }
 

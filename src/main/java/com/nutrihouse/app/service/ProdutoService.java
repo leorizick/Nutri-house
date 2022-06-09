@@ -9,61 +9,77 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
 
     @Autowired
-    ProdutoRepository repo;
+    private ProdutoRepository repo;
 
-    public Produto find(Integer id){
+    public Produto find(Integer id) {
         Optional<Produto> produto = repo.findById(id);
         return produto.orElseThrow(() -> new ObjectNotFoundException("Produto nao encontrado!"));
     }
 
-    public List<Produto> findAll(){
+    public List<Produto> findAll() {
         return repo.findAll();
     }
 
-    public ProdutoDto save(ProdutoDto produtoDto){
+    @Enumerated(value = EnumType.STRING)
+    public Set<TipoCadastro> findAllCategorias() {
+        Set<TipoCadastro> list = new HashSet<>();
+        repo.findAll().stream().filter(x -> list.add(x.getTipoCadastro())).collect(Collectors.toSet());
+        return list;
+    }
+
+    public List<Produto> findAllPerCategorias(TipoCadastro tipoCadastro) {
+        List<Produto> list = new ArrayList<>();
+        list = (repo.findAll()
+                .stream()
+                .filter(x -> x.getTipoCadastro() == tipoCadastro))
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    public ProdutoDto save(ProdutoDto produtoDto) {
         Produto produto = fromDto(produtoDto);
         repo.save(produto);
         return toDto(produto);
     }
 
-    public Produto update(Produto produto){
+    public Produto update(Produto produto) {
         Produto updatedProduto = find(produto.getId());
         updateData(updatedProduto, produto);
         return repo.save(updatedProduto);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         Produto produto = find(id);
         produto.setTipoCadastro(TipoCadastro.DESATIVO);
         repo.save(produto);
-        try{
+        try {
             repo.delete(produto);
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Produto nao pode ser excluido pois possui movimentação atrelada! Produto desativado!");
         }
     }
 
-    public void updateData(Produto updatedProduto, Produto produto){
+    public void updateData(Produto updatedProduto, Produto produto) {
         updatedProduto.setNome(produto.getNome());
-        if(produto.getDescricao() != null) {
+        if (produto.getDescricao() != null) {
             updatedProduto.setDescricao(produto.getDescricao());
         }
-        if(produto.getCodBarras() != null){
+        if (produto.getCodBarras() != null) {
             updatedProduto.setCodBarras(produto.getCodBarras());
         }
-        if(produto.getQuantidade() != null){
+        if (produto.getQuantidade() != null) {
             updatedProduto.setQuantidade(produto.getQuantidade());
         }
-            updatedProduto.setTipoCadastro(TipoCadastro.ATIVO);
+        updatedProduto.setTipoCadastro(TipoCadastro.ATIVO);
 
     }
 
